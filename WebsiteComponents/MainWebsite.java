@@ -19,7 +19,9 @@ public class MainWebsite extends JFrame implements ActionListener {
             password.setBounds(150, 150, 220, 30);
             logonButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                    //Logic handler
+                    //Logic handler idea
+                    // if password and empid is valid, check if empid is for HRadmin or if it is for general employee; switch to either frames
+                    // else return error and make user try to enter data in again
                 }
             });
             logonButton.setBounds(150, 200, 220, 50);
