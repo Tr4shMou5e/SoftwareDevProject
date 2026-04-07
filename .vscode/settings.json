@@ -1,0 +1,11 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "WebsiteComponents/lib/flatlaf-3.2.5.jar",
+        "WebsiteComponents/lib/flatlaf-extras-3.2.5.jar",
+        "WebsiteComponents/lib/jsvg-1.2.0.jar",
+        "WebsiteComponents/lib/miglayout-core.jar",
+        "WebsiteComponents/lib/miglayout-swing.jar",
+        "WebsiteComponents/lib/swing-glasspane-popup-1.5.1.jar"
+    ]
+}
