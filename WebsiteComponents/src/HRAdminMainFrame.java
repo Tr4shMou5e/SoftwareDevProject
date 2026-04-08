@@ -11,7 +11,7 @@ public class HRAdminMainFrame extends JFrame {
         content.removeAll();
 
 
-        content.add(new JLabel("Search Employees", SwingConstants.CENTER));
+        content.add(new SearchPanel(), BorderLayout.CENTER);
 
 
         content.revalidate();
@@ -33,7 +33,7 @@ public class HRAdminMainFrame extends JFrame {
         content.removeAll();
 
 
-        content.add(new JLabel("Salary Adjustment", SwingConstants.CENTER));
+        content.add(new SalaryPanel(), BorderLayout.CENTER);
 
 
         content.revalidate();
@@ -53,7 +53,7 @@ public class HRAdminMainFrame extends JFrame {
     
     public HRAdminMainFrame() {
         setTitle("HR Admin Dashboard");
-        setSize(900, 600);
+        setSize(1200, 1200);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());

@@ -60,7 +60,7 @@ public class MainWebsite {
         gbc.gridwidth = 2;
         p1.add(loginButton, gbc);
 
-        // Login button action → switch to HR Dashboard
+        
         loginButton.addActionListener(e -> {
             loginFrame.dispose(); // close login
             new HRAdminMainFrame(); // open dashboard
