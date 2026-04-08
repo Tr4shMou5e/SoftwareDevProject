@@ -62,8 +62,15 @@ public class MainWebsite {
 
         
         loginButton.addActionListener(e -> {
-            loginFrame.dispose(); // close login
-            new HRAdminMainFrame(); // open dashboard
+            if(username.getText().equals("1")){
+                loginFrame.dispose(); // close login
+            new HRAdminMainFrame(); // open dashboard}
+            }
+            else if(username.getText().equals("2")){
+                loginFrame.dispose(); 
+                 new GenEmployeeMainFrame(); 
+            }
+            
         });
 
         loginFrame.add(p1);
