@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class SearchPanel extends JPanel {
+public class HR_SearchPanel extends JPanel {
 
     
     JTextField firstnameField = new JTextField(10);
@@ -22,7 +22,7 @@ public class SearchPanel extends JPanel {
         new Object[]{"Anna", "Lee", 102, "Engineering", 75000}
     };
 
-    public SearchPanel() {
+    public HR_SearchPanel() {
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel();

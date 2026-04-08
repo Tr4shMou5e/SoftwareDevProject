@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class ReportsPanel extends JPanel {
+public class HR_ReportsPanel extends JPanel {
 
     JButton jobTitleBtn = new JButton("Pay by Job Title");
     JButton divisionBtn = new JButton("Pay by Division");
@@ -22,7 +22,7 @@ public class ReportsPanel extends JPanel {
 
     JPanel tablePanel = new JPanel(new BorderLayout());
 
-    public ReportsPanel() {
+    public HR_ReportsPanel() {
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel(new GridLayout(3, 1));

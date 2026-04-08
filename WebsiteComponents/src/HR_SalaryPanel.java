@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class SalaryPanel extends JPanel {
+public class HR_SalaryPanel extends JPanel {
 
     JButton upSalBtn = new JButton("Update Salary");
 
@@ -16,7 +16,7 @@ public class SalaryPanel extends JPanel {
 
     JPanel tablePanel = new JPanel(new BorderLayout());
 
-    public SalaryPanel() {
+    public HR_SalaryPanel() {
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel(new GridLayout(3, 1));
@@ -51,11 +51,11 @@ public class SalaryPanel extends JPanel {
             String endRange = endRangeField.getText();
             String percent = percentageField.getText();
 
-            UpdateEmployInfo(startRange,endRange,percent);
+            updateEmployInfo(startRange,endRange,percent);
         });
 }
 
-    void UpdateEmployInfo(String startRange, String endRange, String percent) {
+    void updateEmployInfo(String startRange, String endRange, String percent) {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Name");
         model.addColumn("Empid");
@@ -72,12 +72,18 @@ public class SalaryPanel extends JPanel {
         // TEMP data (replace with DB later)
 
         JPanel tablesContainer = new JPanel(new GridLayout(4, 1));
-        JPanel labelPanel = new JPanel();
+        
+
+        
 
         JTable table = new JTable(model);
         JTable table2 = new JTable(model2);
-        tablesContainer.add(new JScrollPane(table));
-        tablesContainer.add(new JScrollPane(table2));
+        JScrollPane tableName = new JScrollPane(table);
+        JScrollPane tableName2 = new JScrollPane(table2);
+        tableName.setBorder(BorderFactory.createTitledBorder("Original Salary"));
+        tableName2.setBorder(BorderFactory.createTitledBorder("Updated Salary"));
+        tablesContainer.add(tableName);
+        tablesContainer.add(tableName2);
 
         tablePanel.removeAll();
         tablePanel.add(new JScrollPane(tablesContainer), BorderLayout.CENTER);

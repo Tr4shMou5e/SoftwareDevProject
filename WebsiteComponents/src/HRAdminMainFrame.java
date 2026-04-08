@@ -11,7 +11,7 @@ public class HRAdminMainFrame extends JFrame {
         content.removeAll();
 
 
-        content.add(new SearchPanel(), BorderLayout.CENTER);
+        content.add(new HR_SearchPanel(), BorderLayout.CENTER);
 
 
         content.revalidate();
@@ -33,7 +33,7 @@ public class HRAdminMainFrame extends JFrame {
         content.removeAll();
 
 
-        content.add(new SalaryPanel(), BorderLayout.CENTER);
+        content.add(new HR_SalaryPanel(), BorderLayout.CENTER);
 
 
         content.revalidate();
@@ -44,7 +44,7 @@ public class HRAdminMainFrame extends JFrame {
         content.removeAll();
 
 
-        content.add(new ReportsPanel(), BorderLayout.CENTER);
+        content.add(new HR_ReportsPanel(), BorderLayout.CENTER);
 
 
         content.revalidate();
