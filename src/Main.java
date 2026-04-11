@@ -11,13 +11,36 @@ public class Main {
             //HR view
             if (x == 1) { 
                 while (true) {
-                    System.out.print("Enter employee ID: ");
-                    int empID = scanner.nextInt();
-                    if (empID == 0) {
-                        System.out.println("Exiting...");
+                    System.out.println("\n--- HR Menu ---");
+                    System.out.println("1. View Employee Details");
+                    System.out.println("2. View Total Pay by Division");
+                    System.out.println("3. View Total Pay by Job Title");
+                    System.out.println("0. Exit");
+                    System.out.print("Select option: ");
+                    int choice = scanner.nextInt();
+                    
+                    if (choice == 1) {
+                        while (true) {
+                        System.out.print("Enter employee ID: ");
+                        int empID = scanner.nextInt();
+                        if (empID == 0) {
+                            System.out.println("Exiting...");
+                            break;
+                        }
+                        EmployeeService.viewEmployee(empID);
+                        }
+                    } else if (choice == 2) {
+                        System.out.println("\n--- Total Pay by Division ---");
+                        TotalPayByDivision.viewTotalPayByDivision();
+                    } else if (choice == 3) {
+                        System.out.println("\n--- Total Pay by Job Title ---");
+                        TotalPayByJobTitle.viewTotalPayByJobTitle();
+                    } else if (choice == 0) {
+                        System.out.println("Exiting HR view...");
                         break;
+                    } else {
+                        System.out.println("Invalid option. Please try again.");
                     }
-                    EmployeeService.viewEmployee(empID); // View employee with ID 1
                 }
             //Employee view
             } else if (x == 2) {

@@ -1,7 +1,7 @@
 import java.sql.*;
 
 public class TotalPayByDivision {
-    public static void totalPayByDivision() {
+    public static void viewTotalPayByDivision() {
         String query = """
             SELECT d.Name, SUM(e.Salary) AS total_pay
             FROM employees e

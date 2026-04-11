@@ -1,5 +1,4 @@
 import java.sql.*;
-import java.util.ArrayList;
 
 public class EmployeeService {
     //HR View
@@ -15,11 +14,8 @@ public class EmployeeService {
             if (!rs.next()) {
                 System.out.println("Employee not found.");
             } else {
-                ArrayList<EmployeeInfo> employees = new ArrayList<>();
                 EmployeeInfo e = new EmployeeInfo();
-                e.addEmployee(empID, rs.getString("Fname"), rs.getString("LName"), rs.getString("email"), rs.getDouble("Salary"), rs.getString("HireDate"), rs.getInt("job_Title_Id"), rs.getInt("div_Id"));
-                employees.add(e);
-
+                e.addEmployee(empID, rs.getString("Fname"), rs.getString("LName"), rs.getString("email"), rs.getDouble("Salary"), rs.getString("HireDate"));
                 System.out.println("Employee Details:");
                 System.out.println("ID: " + e.getEmpID());
                 System.out.println("Name: " + e.getFname() + " " + e.getLName());
@@ -53,9 +49,7 @@ public class EmployeeService {
                 rs.getString("LName"), 
                 rs.getString("email"), 
                 rs.getDouble("Salary"),
-                rs.getString("HireDate"), 
-                rs.getInt("job_Title_Id"), 
-                rs.getInt("div_Id"));
+                rs.getString("HireDate"));
 
                 System.out.println("Employee Details:");
                 System.out.println("ID: " + e.getEmpID());
