@@ -1,17 +1,17 @@
 public class JobTitle {
-    private int DivisionId;
+    private int Job_Title_Id;
     private String jobTitle;
 
     public JobTitle() {
     }
 
-    public JobTitle(int DivisionId, String jobTitle) {
-        this.DivisionId = DivisionId;
+    public JobTitle(int Job_Title_Id, String jobTitle) {
+        this.Job_Title_Id = Job_Title_Id;
         this.jobTitle = jobTitle;
     }
 
     public int getId() {
-        return DivisionId;
+        return Job_Title_Id;
     }
 
     public String getJobTitle() {
