@@ -32,9 +32,11 @@ public class Main {
                     } else if (choice == 2) {
                         System.out.println("\n--- Total Pay by Division ---");
                         TotalPayByDivision.viewTotalPayByDivision();
+                        TotalMontlyPayByDivison.viewTotalMonthlyPayByDivision(1,2026);
                     } else if (choice == 3) {
                         System.out.println("\n--- Total Pay by Job Title ---");
                         TotalPayByJobTitle.viewTotalPayByJobTitle();
+                        TotalMontlyPayByJobTitle.viewTotalMonthlyPayByJobTitle(1,2026);
                     } else if (choice == 0) {
                         System.out.println("Exiting HR view...");
                         break;
