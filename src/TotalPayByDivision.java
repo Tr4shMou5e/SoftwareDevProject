@@ -23,6 +23,7 @@ public class TotalPayByDivision {
                 );
                 double totalPay = rs.getDouble("total_pay");
                 System.out.println(d.getName() + " | $" + totalPay);
+                System.out.println("------------------------------------------");
             }
 
         } catch (Exception e) {

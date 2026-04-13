@@ -27,7 +27,8 @@ public class TotalMontlyPayByJobTitle {
             p.addPayRollInfo(
                 rs.getInt("job_title_id"),
                 rs.getString("job_title"),
-                rs.getDouble("total_pay")
+                rs.getDouble("total_pay"),
+                null
             );
             list.add(p);
         }
@@ -35,6 +36,7 @@ public class TotalMontlyPayByJobTitle {
         System.out.println("Total Monthly Pay by Job Title:");
         for (PayRollInfo p : list) {
             System.out.println(p.getName() + " | $" + p.getPay());
+            System.out.println("------------------------------------------");
 
         }
     } catch (Exception e) {

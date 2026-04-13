@@ -22,6 +22,7 @@ public class EmployeeService {
                 System.out.println("Email: " + e.getEmail());
                 System.out.println("Salary: " + e.getSalary());
                 System.out.println("Hire Date: " + e.getHireDate());
+                System.out.println("------------------------------------------");
             }
 
         } catch (Exception e) {
@@ -29,15 +30,13 @@ public class EmployeeService {
         }
     }
     //Employee View
-    public static void ViewInfo(int empID, String name, String ssn) {
-        String query = "SELECT * FROM employees WHERE empID = ? AND Fname = ? AND SSN = ?";
+    public static void ViewInfo(int empID) {
+        String query = "SELECT * FROM employees WHERE empID = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setInt(1, empID);
-            ps.setString(2, name);
-            ps.setString(3, ssn);
             ResultSet rs = ps.executeQuery();
 
             if (!rs.next()) {
@@ -49,13 +48,15 @@ public class EmployeeService {
                 rs.getString("LName"), 
                 rs.getString("email"), 
                 rs.getDouble("Salary"),
-                rs.getString("HireDate"));
+                null
+                );
 
                 System.out.println("Employee Details:");
                 System.out.println("ID: " + e.getEmpID());
                 System.out.println("Name: " + e.getFname() + " " + e.getLName());
                 System.out.println("Email: " + e.getEmail());
                 System.out.println("Salary: " + e.getSalary());
+                System.out.println("------------------------------------------");
             }
 
         } catch (Exception e) {

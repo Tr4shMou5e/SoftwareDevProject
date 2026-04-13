@@ -24,6 +24,7 @@ public class TotalPayByJobTitle {
 
                 double totalPay = rs.getDouble("total_pay");
                 System.out.println(jt.getJobTitle() + " | $" + totalPay);
+                System.out.println("------------------------------------------");
             }
 
         } catch (Exception e) {

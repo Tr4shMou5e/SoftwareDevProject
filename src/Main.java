@@ -48,11 +48,8 @@ public class Main {
             } else if (x == 2) {
                 System.out.print("Enter your employee ID: ");
                 int empID = scanner.nextInt();
-                System.out.print("Enter your employee Name: ");
-                String name = scanner.next();
-                System.out.print("Enter your employee SSN: ");
-                String ssn = scanner.next();
-                EmployeeService.ViewInfo(empID, name, ssn); // View ID 1, Snoopy, 111-11-1111
+                EmployeeService.ViewInfo(empID); // View ID 1, Snoopy, 111-11-1111
+                PayStatement.viewPayStatement(empID);
 
             }
         } finally {

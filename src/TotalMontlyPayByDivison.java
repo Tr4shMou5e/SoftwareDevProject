@@ -27,7 +27,8 @@ public class TotalMontlyPayByDivison {
             p.addPayRollInfo(
                 rs.getInt("div_id"),
                 rs.getString("Name"),
-                rs.getDouble("total_pay")
+                rs.getDouble("total_pay"),
+                null
             );
             list.add(p);
         }
@@ -35,6 +36,7 @@ public class TotalMontlyPayByDivison {
         System.out.println("Total Monthly Pay by Division:");
         for (PayRollInfo p : list) {
             System.out.println(p.getName() + " | $" + p.getPay());
+            System.out.println("------------------------------------------");
         }
 
     } catch (Exception e) {
