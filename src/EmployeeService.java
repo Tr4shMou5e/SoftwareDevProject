@@ -28,7 +28,7 @@ public class EmployeeService {
             e.printStackTrace();
         }
     }
-
+    //Employee View
     public static void ViewInfo(int empID, String name, String ssn) {
         String query = "SELECT * FROM employees WHERE empID = ? AND Fname = ? AND SSN = ?";
 
