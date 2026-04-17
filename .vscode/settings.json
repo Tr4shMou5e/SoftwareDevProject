@@ -6,6 +6,7 @@
         "WebsiteComponents/lib/jsvg-1.2.0.jar",
         "WebsiteComponents/lib/miglayout-core.jar",
         "WebsiteComponents/lib/miglayout-swing.jar",
-        "WebsiteComponents/lib/swing-glasspane-popup-1.5.1.jar"
+        "WebsiteComponents/lib/swing-glasspane-popup-1.5.1.jar",
+        "InfoReport/lib/mysql-connector-j-9.1.0.jar"
     ]
 }
