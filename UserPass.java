@@ -21,7 +21,6 @@ public class UserPass {
             stmt.executeUpdate();
 
             System.out.println("User created successfully.");
-            System.out.println("User type: " + PasswordUtil.getUserTypeFromPassword(password));
 
         } catch (Exception e) {
             e.printStackTrace();

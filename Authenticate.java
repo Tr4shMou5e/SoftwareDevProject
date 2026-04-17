@@ -1,67 +1,99 @@
-import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 
-public class Authenticate {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        UserPass dao = new UserPass();
+public class Authenticate extends JFrame implements ActionListener {
 
-        while (true) {
-            System.out.println("\n1. Create User");
-            System.out.println("2. Login");
-            System.out.println("3. Exit");
-            System.out.print("Choose: ");
+    private JLabel empIdLabel;
+    private JLabel passwordLabel;
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+    private JTextField empIdField;
+    private JPasswordField passwordField;
 
-            if (choice == 1) {
-                System.out.print("Enter Employee ID: ");
-                int empId = scanner.nextInt();
-                scanner.nextLine();
+    private JButton createUserButton;
+    private JButton loginButton;
 
-                System.out.print("Enter Password: ");
-                String password = scanner.nextLine();
+    private UserPass dao;
 
-                dao.createUser(empId, password);
+    public Authenticate() {
+        dao = new UserPass();
 
-            } else if (choice == 2) {
-                System.out.print("Enter Employee ID: ");
-                int empId = scanner.nextInt();
-                scanner.nextLine();
+        setTitle("Employee Authentication System");
+        setSize(400, 220);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-                System.out.print("Enter Password: ");
-                String inputPassword = scanner.nextLine();
+        setLayout(new GridLayout(3, 2, 10, 10));
 
-                String storedHash = dao.getHashedPasswordByEmpId(empId);
+        empIdLabel = new JLabel("Employee ID:");
+        passwordLabel = new JLabel("Password:");
 
-                if (storedHash == null) {
-                    System.out.println("Employee ID not found.");
-                } else {
-                    boolean valid = PasswordUtil.verifyPassword(inputPassword, storedHash);
+        empIdField = new JTextField();
+        passwordField = new JPasswordField();
 
-                    if (valid) {
-                        System.out.println("Login successful.");
+        createUserButton = new JButton("Create User");
+        loginButton = new JButton("Login");
 
-                        if (PasswordUtil.isHRPassword(inputPassword)) {
-                            System.out.println("Access granted: HR Admin");
-                        } else if (PasswordUtil.isGeneralEmployeePassword(inputPassword)) {
-                            System.out.println("Access granted: General Employee");
-                        } else {
-                            System.out.println("Password format invalid.");
-                        }
-                    } else {
-                        System.out.println("Invalid login credentials.");
-                    }
-                }
+        createUserButton.addActionListener(this);
+        loginButton.addActionListener(this);
 
-            } else if (choice == 3) {
-                System.out.println("Goodbye.");
-                break;
-            } else {
-                System.out.println("Invalid choice.");
-            }
+        add(empIdLabel);
+        add(empIdField);
+        add(passwordLabel);
+        add(passwordField);
+        add(createUserButton);
+        add(loginButton);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String empIdText = empIdField.getText().trim();
+        String password = new String(passwordField.getPassword());
+
+        if (empIdText.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter Employee ID and Password.");
+            return;
         }
 
-        scanner.close();
+        int empId;
+
+        try {
+            empId = Integer.parseInt(empIdText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Employee ID must be a number.");
+            return;
+        }
+
+        if (e.getSource() == createUserButton) {
+            dao.createUser(empId, password);
+            JOptionPane.showMessageDialog(this, "Create User button clicked.");
+
+        } else if (e.getSource() == loginButton) {
+            String storedHash = dao.getHashedPasswordByEmpId(empId);
+
+            if (storedHash == null) {
+                JOptionPane.showMessageDialog(this, "Employee ID not found.");
+            } else {
+                boolean valid = PasswordUtil.verifyPassword(password, storedHash);
+
+                if (valid) {
+                    if (PasswordUtil.isHRPassword(password)) {
+                        JOptionPane.showMessageDialog(this, "Login successful. Access granted: HR Admin");
+                    } else if (PasswordUtil.isGeneralEmployeePassword(password)) {
+                        JOptionPane.showMessageDialog(this, "Login successful. Access granted: General Employee");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Password format invalid.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid login credentials.");
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new Authenticate();
     }
 }
