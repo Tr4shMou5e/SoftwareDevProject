@@ -2,5 +2,6 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "mysql-connector-j-9.1.0.jar",
+        "InfoReport/lib/mysql-connector-j-9.1.0.jar"
     ]
 }
