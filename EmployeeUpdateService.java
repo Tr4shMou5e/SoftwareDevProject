@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class EmployeeUpdateService {
 
-    // UPDATE SALARY
+    
     public static boolean updateEmployeeSalary(int empID, double newSalary) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -35,7 +35,7 @@ public class EmployeeUpdateService {
     }
 
 
-    // UPDATE JOB TITLE
+    
     public static boolean updateEmployeeJobTitle(int empID, int jobTitleID) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -60,7 +60,7 @@ public class EmployeeUpdateService {
     }
 
 
-    // UPDATE DIVISION
+    
     public static boolean updateEmployeeDivision(int empID, int divisionID) {
         Connection conn = null;
         PreparedStatement stmt = null;
