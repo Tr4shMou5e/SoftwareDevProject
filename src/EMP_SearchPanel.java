@@ -78,7 +78,6 @@ public class EMP_SearchPanel extends JPanel {
 
 
         try {
-            int id = Integer.parseInt(empid);
 
             ArrayList<EmployeeInfo> list = EmployeeService.searchEmployees(
                 firstname, dob, ssn, empid
@@ -87,9 +86,8 @@ public class EMP_SearchPanel extends JPanel {
             for (EmployeeInfo emp : list) {
                 model.addRow(new Object[]{
                     emp.getFname(),
-                    emp.getLName(),
+                    emp.getLname(),
                     emp.getEmpID(),
-                    "N/A",
                     emp.getSalary()
                 });
             }

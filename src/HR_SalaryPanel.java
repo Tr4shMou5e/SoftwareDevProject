@@ -1,6 +1,7 @@
 
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -56,39 +57,79 @@ public class HR_SalaryPanel extends JPanel {
 }
 
     void updateEmployInfo(String startRange, String endRange, String percent) {
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Name");
-        model.addColumn("Empid");
-        model.addColumn("Salary");
 
-        // TEMP data (replace with DB later)
-       
+    double start, end, pct;
 
-        DefaultTableModel model2 = new DefaultTableModel();
-        model2.addColumn("Name");
-        model2.addColumn("Empid");
-        model2.addColumn("Salary");
-
-        // TEMP data (replace with DB later)
-
-        JPanel tablesContainer = new JPanel(new GridLayout(4, 1));
-        
-
-        
-
-        JTable table = new JTable(model);
-        JTable table2 = new JTable(model2);
-        JScrollPane tableName = new JScrollPane(table);
-        JScrollPane tableName2 = new JScrollPane(table2);
-        tableName.setBorder(BorderFactory.createTitledBorder("Original Salary"));
-        tableName2.setBorder(BorderFactory.createTitledBorder("Updated Salary"));
-        tablesContainer.add(tableName);
-        tablesContainer.add(tableName2);
-
-        tablePanel.removeAll();
-        tablePanel.add(new JScrollPane(tablesContainer), BorderLayout.CENTER);
-        tablePanel.revalidate();
-        tablePanel.repaint();
+    try {
+        start = Double.parseDouble(startRange);
+        end = Double.parseDouble(endRange);
+        pct = Double.parseDouble(percent);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Enter valid numbers.");
+        return;
     }
+
+    
+    ArrayList<EmployeeInfo> beforeList =
+        EmployeeService.getEmployeesInRange(start, end);
+
+    
+    EmployeeService.updateSalary(start, end, pct);
+
+   
+    ArrayList<EmployeeInfo> afterList =
+        EmployeeService.getEmployeesInRange(start, end);
+
+    // setup tables
+    DefaultTableModel modelBefore = new DefaultTableModel();
+    modelBefore.addColumn("First Name");
+    modelBefore.addColumn("Last Name");
+    modelBefore.addColumn("EmpID");
+    modelBefore.addColumn("Salary");
+
+    DefaultTableModel modelAfter = new DefaultTableModel();
+    modelAfter.addColumn("First Name");
+    modelAfter.addColumn("Last Name");
+    modelAfter.addColumn("EmpID");
+    modelAfter.addColumn("Salary");
+
+    // Before table
+    for (EmployeeInfo e : beforeList) {
+        modelBefore.addRow(new Object[]{
+            e.getFname(),
+            e.getLname(),
+            e.getEmpID(),
+            e.getSalary()
+        });
+    }
+
+    // After table
+    for (EmployeeInfo e : afterList) {
+        modelAfter.addRow(new Object[]{
+            e.getFname(),
+            e.getLname(),
+            e.getEmpID(),
+            e.getSalary()
+        });
+    }
+
+    JTable tableBefore = new JTable(modelBefore);
+    JTable tableAfter = new JTable(modelAfter);
+
+    JScrollPane sp1 = new JScrollPane(tableBefore);
+    JScrollPane sp2 = new JScrollPane(tableAfter);
+
+    sp1.setBorder(BorderFactory.createTitledBorder("Before Update"));
+    sp2.setBorder(BorderFactory.createTitledBorder("After Update"));
+
+    JPanel container = new JPanel(new GridLayout(2, 1));
+    container.add(sp1);
+    container.add(sp2);
+
+    tablePanel.removeAll();
+    tablePanel.add(container, BorderLayout.CENTER);
+    tablePanel.revalidate();
+    tablePanel.repaint();
+}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class EmployeeService {
     //HR View
+    //Update: HR AND EMPLOYEE VIEW
     public static ArrayList<EmployeeInfo> searchEmployees(
     String fname, String dob, String ssn, String empid
 ) {
@@ -33,7 +34,7 @@ public class EmployeeService {
             e.addEmployee(
                 rs.getInt("empID"),
                 rs.getString("Fname"),
-                rs.getString("LName"),
+                rs.getString("Lname"),
                 rs.getString("email"),
                 rs.getDouble("Salary"),
                 rs.getString("HireDate")
@@ -47,7 +48,67 @@ public class EmployeeService {
 
     return list;
 }
-    //Employee View
+    // salary update
+    public static void updateSalary(double start, double end, double percent) {
+
+        String query = """
+            UPDATE employees
+            SET Salary = Salary + (Salary * ? / 100)
+            WHERE Salary BETWEEN ? AND ?
+        """;
+
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setDouble(1, percent);
+            ps.setDouble(2, start);
+            ps.setDouble(3, end);
+
+            int rows = ps.executeUpdate();
+
+            System.out.println(rows + " employees updated.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<EmployeeInfo> getEmployeesInRange(double start, double end) {
+
+    ArrayList<EmployeeInfo> list = new ArrayList<>();
+
+    String query = "SELECT empID, Fname, LName, Salary FROM employees WHERE Salary BETWEEN ? AND ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+
+        ps.setDouble(1, start);
+        ps.setDouble(2, end);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            EmployeeInfo e = new EmployeeInfo();
+            e.addEmployee(
+                rs.getInt("empID"),
+                rs.getString("Fname"),
+                rs.getString("Lname"),
+                "",
+                rs.getDouble("Salary"),
+                ""
+            );
+            list.add(e);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+    /* # Employee View {original comment}
+       # Rund's comment: while this is good for employee view the final assignment shows both HR and employee should have multi-view not just HR
+
     public static void ViewInfo(int empID) {
         String query = "SELECT * FROM employees WHERE empID = ?";
 
@@ -63,7 +124,7 @@ public class EmployeeService {
                 EmployeeInfo e = new EmployeeInfo();
                 e.addEmployee(empID, 
                 rs.getString("Fname"), 
-                rs.getString("LName"), 
+                rs.getString("Lname"), 
                 rs.getString("email"), 
                 rs.getDouble("Salary"),
                 null
@@ -71,7 +132,7 @@ public class EmployeeService {
 
                 System.out.println("Employee Details:");
                 System.out.println("ID: " + e.getEmpID());
-                System.out.println("Name: " + e.getFname() + " " + e.getLName());
+                System.out.println("Name: " + e.getFname() + " " + e.getLname());
                 System.out.println("Email: " + e.getEmail());
                 System.out.println("Salary: " + e.getSalary());
                 System.out.println("------------------------------------------");
@@ -80,5 +141,5 @@ public class EmployeeService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    } */
 }

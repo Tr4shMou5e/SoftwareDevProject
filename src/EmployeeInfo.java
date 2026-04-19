@@ -1,7 +1,7 @@
 
 public class EmployeeInfo {
     private int empID;
-    private String Fname, LName, email;
+    private String Fname, Lname, email;
     private double Salary;
     private String HireDate;
 
@@ -9,10 +9,10 @@ public class EmployeeInfo {
 
     }
 
-    public void addEmployee(int empID, String Fname, String LName, String email, double Salary, String HireDate) {
+    public void addEmployee(int empID, String Fname, String Lname, String email, double Salary, String HireDate) {
         this.empID = empID;
         this.Fname = Fname;
-        this.LName = LName;
+        this.Lname = Lname;
         this.email = email;
         this.Salary = Salary;
         this.HireDate = HireDate;
@@ -26,8 +26,8 @@ public class EmployeeInfo {
         return Fname;
     }
 
-    public String getLName() {
-        return LName;
+    public String getLname() {
+        return Lname;
     }
 
     public String getEmail() {

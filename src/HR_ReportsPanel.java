@@ -11,13 +11,11 @@ public class HR_ReportsPanel extends JPanel {
     JButton hiresBtn = new JButton("New Hires");
 
     
-    JTextField jobTitleField = new JTextField(10);
-    JTextField divisionField = new JTextField(10);
+    JTextField monthField = new JTextField(5);
+    JTextField yearField = new JTextField(5);
     JTextField startDateField = new JTextField(10);
     JTextField endDateField = new JTextField(10);
 
-    JButton jobSearchBtn = new JButton("Search Job Title");
-    JButton divisionSearchBtn = new JButton("Search Division");
     JButton searchHiresBtn = new JButton("Search Hires");
 
     JPanel tablePanel = new JPanel(new BorderLayout());
@@ -25,66 +23,88 @@ public class HR_ReportsPanel extends JPanel {
     public HR_ReportsPanel() {
         setLayout(new BorderLayout());
 
-        JPanel topPanel = new JPanel(new GridLayout(3, 1));
+        JPanel topPanel = new JPanel();
+    topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(jobTitleBtn);
         buttonPanel.add(divisionBtn);
-        buttonPanel.add(hiresBtn);
-
-        JPanel inputPanel = new JPanel();
-        inputPanel.add(new JLabel("Job Title:"));
-        inputPanel.add(jobTitleField);
-        inputPanel.add(jobSearchBtn);
-
-        inputPanel.add(new JLabel("Division:"));
-        inputPanel.add(divisionField);
-        inputPanel.add(divisionSearchBtn);
-
-        // Row 3: date range
-        JPanel datePanel = new JPanel();
-        datePanel.add(new JLabel("Start Date:"));
-        datePanel.add(startDateField);
-        datePanel.add(new JLabel("End Date:"));
-        datePanel.add(endDateField);
-        datePanel.add(searchHiresBtn);
-
-        // Add all rows
-        topPanel.add(buttonPanel);
-        topPanel.add(inputPanel);
-        topPanel.add(datePanel);
+        // buttonPanel.add(hiresBtn);
 
         
+        JPanel monthPanel = new JPanel();
+        monthPanel.add(new JLabel("Month:"));
+        monthPanel.add(monthField);
+
+        monthPanel.add(new JLabel("Year:"));
+        monthPanel.add(yearField);
+
+        monthPanel.add(jobTitleBtn);
+        monthPanel.add(divisionBtn);
+
+       
+        JPanel hiresPanel = new JPanel();
+        hiresPanel.add(new JLabel("Start Date:"));
+        hiresPanel.add(startDateField);
+
+        hiresPanel.add(new JLabel("End Date:"));
+        hiresPanel.add(endDateField);
+
+        hiresPanel.add(searchHiresBtn);
+
+        
+        topPanel.add(buttonPanel);
+        topPanel.add(monthPanel);
+        topPanel.add(hiresPanel);
+
         add(topPanel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
         
 
         // Button actions
-        jobTitleBtn.addActionListener(e -> loadJobTitleReport(""));
+            jobTitleBtn.addActionListener(e -> {
+            int month, year;
 
-        jobSearchBtn.addActionListener(e -> {
-            String input = jobTitleField.getText();
-            loadJobTitleReport(input);
-        });
-        
-        divisionBtn.addActionListener(e -> loadDivisionReport(""));
+            try {
+                month = Integer.parseInt(monthField.getText());
+                year = Integer.parseInt(yearField.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Enter valid month and year.");
+                return;
+            }
 
-        divisionSearchBtn.addActionListener(e -> {
-            String input = divisionField.getText();
-            loadDivisionReport(input);
+            loadJobTitleReport(month, year);
         });
-        
-        hiresBtn.addActionListener(e -> loadHiresReport("",""));
+
+        divisionBtn.addActionListener(e -> {
+            int month, year;
+
+            try {
+                month = Integer.parseInt(monthField.getText());
+                year = Integer.parseInt(yearField.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Enter valid month and year.");
+                return;
+            }
+
+            loadDivisionReport(month, year);
+        });
 
         searchHiresBtn.addActionListener(e -> {
-        String start = startDateField.getText();
-        String end = endDateField.getText();
+            String start = startDateField.getText();
+            String end = endDateField.getText();
 
-        loadHiresReport(start, end);
-});
+            if (start.isEmpty() || end.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter start and end dates.");
+                return;
+            }
+
+            loadHiresReport(start, end);
+        });
     }
 
-    void loadJobTitleReport(String jobTitle) {
+    void loadJobTitleReport(int month, int year) {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Job Title");
         model.addColumn("Total Pay");
@@ -97,11 +117,8 @@ public class HR_ReportsPanel extends JPanel {
         //     model.addRow(new Object[]{"Developer", 400000});
         // }
 
-        int month = Integer.parseInt(startDateField.getText());
-        int year = Integer.parseInt(endDateField.getText());
-
         ArrayList<PayRollInfo> list =
-            TotalMontlyPayByJobTitle.viewTotalMonthlyPayByJobTitle(month, year);
+        TotalMontlyPayByJobTitle.viewTotalMonthlyPayByJobTitle(month, year);
 
         for (PayRollInfo p : list) {
             model.addRow(new Object[]{
@@ -119,18 +136,15 @@ public class HR_ReportsPanel extends JPanel {
         tablePanel.repaint();
     }
 
-    void loadDivisionReport(String division) {
+     void loadDivisionReport(int month, int year) {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Divsion");
         model.addColumn("Total Pay");
 
 
 
-        int month = Integer.parseInt(startDateField.getText());
-        int year = Integer.parseInt(endDateField.getText());
-
         ArrayList<PayRollInfo> list =
-            TotalMontlyPayByDivison.viewTotalMonthlyPayByDivision(month, year);
+        TotalMontlyPayByDivison.viewTotalMonthlyPayByDivision(month, year);
 
         for (PayRollInfo p : list) {
             model.addRow(new Object[]{
