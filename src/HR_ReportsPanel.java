@@ -1,10 +1,10 @@
-package src;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class EMP_ReportsPanel extends JPanel {
+public class HR_ReportsPanel extends JPanel {
 
     JButton jobTitleBtn = new JButton("Pay by Job Title");
     JButton divisionBtn = new JButton("Pay by Division");
@@ -22,7 +22,7 @@ public class EMP_ReportsPanel extends JPanel {
 
     JPanel tablePanel = new JPanel(new BorderLayout());
 
-    public EMP_ReportsPanel() {
+    public HR_ReportsPanel() {
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel(new GridLayout(3, 1));
@@ -89,12 +89,25 @@ public class EMP_ReportsPanel extends JPanel {
         model.addColumn("Job Title");
         model.addColumn("Total Pay");
 
-        // TEMP data (replace with DB later)
-        if (jobTitle.isEmpty() || jobTitle.equalsIgnoreCase("Manager")) {
-            model.addRow(new Object[]{"Manager", 250000});
-        }
-        if (jobTitle.isEmpty() || jobTitle.equalsIgnoreCase("Developer")) {
-            model.addRow(new Object[]{"Developer", 400000});
+        // // TEMP data (replace with DB later)
+        // if (jobTitle.isEmpty() || jobTitle.equalsIgnoreCase("Manager")) {
+        //     model.addRow(new Object[]{"Manager", 250000});
+        // }
+        // if (jobTitle.isEmpty() || jobTitle.equalsIgnoreCase("Developer")) {
+        //     model.addRow(new Object[]{"Developer", 400000});
+        // }
+
+        int month = Integer.parseInt(startDateField.getText());
+        int year = Integer.parseInt(endDateField.getText());
+
+        ArrayList<PayRollInfo> list =
+            TotalMontlyPayByJobTitle.viewTotalMonthlyPayByJobTitle(month, year);
+
+        for (PayRollInfo p : list) {
+            model.addRow(new Object[]{
+                p.getName(),
+                p.getPay()
+            });
         }
 
         JTable table = new JTable(model);
@@ -108,18 +121,22 @@ public class EMP_ReportsPanel extends JPanel {
 
     void loadDivisionReport(String division) {
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("FirstName");
-        model.addColumn("LastName");
-        model.addColumn("Empid");
         model.addColumn("Divsion");
         model.addColumn("Total Pay");
 
-        // TEMP data (replace with DB later)
-        if(division.isEmpty() || division.equalsIgnoreCase("ego")){
-        model.addRow(new Object[]{"Meow","Hi",001,"ego", 250000});
-        }
-        if(division.isEmpty() || division.equalsIgnoreCase("Dev")){
-        model.addRow(new Object[]{"bark","La",102,"Dev", 400000});
+
+
+        int month = Integer.parseInt(startDateField.getText());
+        int year = Integer.parseInt(endDateField.getText());
+
+        ArrayList<PayRollInfo> list =
+            TotalMontlyPayByDivison.viewTotalMonthlyPayByDivision(month, year);
+
+        for (PayRollInfo p : list) {
+            model.addRow(new Object[]{
+                p.getName(),
+                p.getPay()
+            });
         }
 
         JTable table = new JTable(model);
@@ -139,13 +156,13 @@ public class EMP_ReportsPanel extends JPanel {
         model.addColumn("Date employed");
 
         // TEMP data (replace with DB later)
-        if (start.isEmpty() && end.isEmpty()) {
-    model.addRow(new Object[]{"John", "Smith", 101, "2025-01-10"});
-    }
+    //     if (start.isEmpty() && end.isEmpty()) {
+    // model.addRow(new Object[]{"John", "Smith", 101, "2025-01-10"});
+    // }
 
-    if (start.equals("2025-01-01") && end.equals("2025-03-01")) {
-        model.addRow(new Object[]{"Anna", "Lee", 102, "2025-02-03"});
-    }
+    // if (start.equals("2025-01-01") && end.equals("2025-03-01")) {
+    //     model.addRow(new Object[]{"Anna", "Lee", 102, "2025-02-03"});
+    // }
 
         JTable table = new JTable(model);
         table.setRowHeight(25);

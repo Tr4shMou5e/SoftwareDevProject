@@ -1,8 +1,9 @@
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class TotalMontlyPayByJobTitle {
-    public static void viewTotalMonthlyPayByJobTitle(int month, int year) {
+    public static ArrayList<PayRollInfo> viewTotalMonthlyPayByJobTitle(int month, int year) {
         String query = """
             SELECT jt.job_title_id, jt.job_title, SUM(p.earnings) AS total_pay
             FROM payroll p
@@ -12,6 +13,8 @@ public class TotalMontlyPayByJobTitle {
             GROUP BY jt.job_title_id, jt.job_title
         """;
 
+        ArrayList<PayRollInfo> list = new ArrayList<>();
+
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -20,7 +23,7 @@ public class TotalMontlyPayByJobTitle {
 
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<PayRollInfo> list = new ArrayList<>();
+        
         
         while (rs.next()) {
             PayRollInfo p = new PayRollInfo();
@@ -33,14 +36,9 @@ public class TotalMontlyPayByJobTitle {
             list.add(p);
         }
         
-        System.out.println("Total Monthly Pay by Job Title:");
-        for (PayRollInfo p : list) {
-            System.out.println(p.getName() + " | $" + p.getPay());
-            System.out.println("------------------------------------------");
-
-        }
     } catch (Exception e) {
         e.printStackTrace();
         }
+    return list;
     }
 }

@@ -1,6 +1,7 @@
-package src;
+
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,11 +17,11 @@ public class EMP_SearchPanel extends JPanel {
 
     JPanel tablePanel = new JPanel(new BorderLayout());
 
-    // Ryan's fun helpful thingy
-    private Object[][] stored_employees = {
-        new Object[]{"John", "Smith", 101, "HR", 60000},
-        new Object[]{"Anna", "Lee", 102, "Engineering", 75000}
-    };
+    // // Ryan's fun helpful thingy
+    // private Object[][] stored_employees = {
+    //     new Object[]{"John", "Smith", 101, "HR", 60000},
+    //     new Object[]{"Anna", "Lee", 102, "Engineering", 75000}
+    // };
 
     public EMP_SearchPanel() {
         setLayout(new BorderLayout());
@@ -75,14 +76,26 @@ public class EMP_SearchPanel extends JPanel {
         model.addColumn("Division");
         model.addColumn("Salary");
 
-        // TEMP filtering logic
 
-        // Example very temporty filtering logic 2
-        for (Object[] tuple : stored_employees) {
-            // TODO: Apply filitering logic right here
+        try {
+            int id = Integer.parseInt(empid);
 
-            // Determine if you add this based on that filter.
-            model.addRow(tuple);
+            ArrayList<EmployeeInfo> list = EmployeeService.searchEmployees(
+                firstname, dob, ssn, empid
+            );
+
+            for (EmployeeInfo emp : list) {
+                model.addRow(new Object[]{
+                    emp.getFname(),
+                    emp.getLName(),
+                    emp.getEmpID(),
+                    "N/A",
+                    emp.getSalary()
+                });
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid Employee ID");
         }
 
         // Exapmle VERY temporary filtering logic 1

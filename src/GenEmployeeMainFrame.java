@@ -1,39 +1,17 @@
-package src;
+
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class HRAdminMainFrame extends JFrame {
+public class GenEmployeeMainFrame extends JFrame {
     JPanel content = new JPanel();
     // methods for each component HR Admin needs for CRUD functionality
     void showSearchemp() {
         content.removeAll();
 
 
-        content.add(new HR_SearchPanel(), BorderLayout.CENTER);
-
-
-        content.revalidate();
-        content.repaint();
-    }
-
-    void showUpdemp() {
-        content.removeAll();
-
-
-        content.add(new JLabel("Update Employees", SwingConstants.CENTER));
-
-
-        content.revalidate();
-        content.repaint();
-    }
-
-    void showSalary() {
-        content.removeAll();
-
-
-        content.add(new HR_SalaryPanel(), BorderLayout.CENTER);
+        content.add(new EMP_SearchPanel(), BorderLayout.CENTER);
 
 
         content.revalidate();
@@ -44,15 +22,15 @@ public class HRAdminMainFrame extends JFrame {
         content.removeAll();
 
 
-        content.add(new HR_ReportsPanel(), BorderLayout.CENTER);
+        content.add(new EMP_ReportsPanel(), BorderLayout.CENTER);
 
 
         content.revalidate();
         content.repaint();
     }
     
-    public HRAdminMainFrame() {
-        setTitle("HR Admin Dashboard");
+    public GenEmployeeMainFrame() {
+        setTitle("Employee Dashboard");
         setSize(1200, 1200);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,13 +43,9 @@ public class HRAdminMainFrame extends JFrame {
         sidebar.setLayout(new GridLayout(6, 1, 0, 10));
 
         JButton searchEmpBtn = new JButton("Search Employee");
-        JButton updEmployeesBtn = new JButton("Update Employees");
-        JButton salaryBtn = new JButton("Salary Adjustment");
         JButton reportsBtn = new JButton("Reports");
 
         sidebar.add(searchEmpBtn);
-        sidebar.add(updEmployeesBtn);
-        sidebar.add(salaryBtn);
         sidebar.add(reportsBtn);
 
         // Main Content Area
@@ -87,8 +61,6 @@ public class HRAdminMainFrame extends JFrame {
 
         
         searchEmpBtn.setActionCommand("SEARCHEMP");
-        updEmployeesBtn.setActionCommand("UPDEMP");
-        salaryBtn.setActionCommand("SALARY");
         reportsBtn.setActionCommand("REPORTS");
 
 
@@ -98,12 +70,6 @@ public class HRAdminMainFrame extends JFrame {
                 case "SEARCHEMP":
                     showSearchemp();
                     break;
-                case "UPDEMP":
-                    showUpdemp();
-                    break;
-                case "SALARY":
-                    showSalary();
-                    break;
                 case "REPORTS":
                     showReports();
                     break;
@@ -111,8 +77,6 @@ public class HRAdminMainFrame extends JFrame {
         };
 
         searchEmpBtn.addActionListener(menuHandler);
-        updEmployeesBtn.addActionListener(menuHandler);
-        salaryBtn.addActionListener(menuHandler);
         reportsBtn.addActionListener(menuHandler);
         
         add(sidebar, BorderLayout.WEST);

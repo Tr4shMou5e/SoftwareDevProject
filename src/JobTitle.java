@@ -1,3 +1,4 @@
+
 public class JobTitle {
     private int Job_Title_Id;
     private String jobTitle;
