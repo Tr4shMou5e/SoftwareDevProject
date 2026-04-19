@@ -12,7 +12,7 @@ public class EmployeeUpdateService {
         try {
             conn = DBConnection.getConnection();
 
-            String sql = "UPDATE payroll SET salary = ? WHERE empid = ?";
+            String sql = "UPDATE employees SET Salary = ? WHERE empid = ?";
             stmt = conn.prepareStatement(sql);
 
             stmt.setDouble(1, newSalary);
