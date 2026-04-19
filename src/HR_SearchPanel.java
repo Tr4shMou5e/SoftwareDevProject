@@ -1,11 +1,11 @@
-
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
 public class HR_SearchPanel extends JPanel {
 
-    
     JTextField firstnameField = new JTextField(10);
     JTextField dobField = new JTextField(10);
     JTextField ssnField = new JTextField(10);
@@ -15,17 +15,8 @@ public class HR_SearchPanel extends JPanel {
 
     JPanel tablePanel = new JPanel(new BorderLayout());
 
-    // Ryan's fun helpful thingy
-    private Object[][] stored_employees = {
-        new Object[]{"John", "Smith", 101, "HR", 60000},
-        new Object[]{"Anna", "Lee", 102, "Engineering", 75000}
-    };
-
     public HR_SearchPanel() {
         setLayout(new BorderLayout());
-
-        JPanel topPanel = new JPanel();
-        
 
         JPanel inputPanel = new JPanel();
         inputPanel.add(new JLabel("First name:"));
@@ -41,32 +32,28 @@ public class HR_SearchPanel extends JPanel {
         inputPanel.add(empidField);
 
         inputPanel.add(searchemployeeBtn);
-        topPanel.add(inputPanel);
-        
 
-        
-        add(topPanel, BorderLayout.NORTH);
+        add(inputPanel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
-        
-        
 
-        // Button actions
         searchemployeeBtn.addActionListener(e -> {
-            String fname = firstnameField.getText();
-            String dob = dobField.getText();
-            String ssn = ssnField.getText();
-            String empid = empidField.getText();
-
-            loadEmployeeData(fname,dob,ssn,empid);
+            loadEmployeeData(
+                firstnameField.getText(),
+                dobField.getText(),
+                ssnField.getText(),
+                empidField.getText()
+            );
         });
-        
-
     }
-
 
     void loadEmployeeData(String firstname, String dob, String ssn, String empid) {
 
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 2; // EmpID not editable
+            }
+        };
 
         model.addColumn("First Name");
         model.addColumn("Last Name");
@@ -74,55 +61,86 @@ public class HR_SearchPanel extends JPanel {
         model.addColumn("Division");
         model.addColumn("Salary");
 
-        // TEMP filtering logic
-
-        // Example very temporty filtering logic 2
-        for (Object[] tuple : stored_employees) {
-            // TODO: Apply filitering logic right here
-
-            // Determine if you add this based on that filter.
-            model.addRow(tuple);
-        }
-
-        // Exapmle VERY temporary filtering logic 1
-        // if (firstname.equalsIgnoreCase("John") || firstname.isEmpty()) {
-        //     model.addRow(new Object[]{"John", "Smith", 101, "HR", 60000});
-        // }
-
-        // if (empid.equals("102") || empid.isEmpty()) {
-        //     model.addRow(new Object[]{"Anna", "Lee", 102, "Engineering", 75000});
-        // }
-
         JTable table = new JTable(model);
         table.setRowHeight(25);
+
+        // hard coded drop down for now until all divsions are shown
+        JComboBox<String> divisionBox = new JComboBox<>(new String[]{"HR", "Engineering"});
+        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(divisionBox));
 
         tablePanel.removeAll();
         tablePanel.add(new JScrollPane(table), BorderLayout.CENTER);
         tablePanel.revalidate();
         tablePanel.repaint();
-        
-        //Depending on how this works with database might have to revise, Check once gotten to this point
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        table.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                int row = table.getSelectedRow();
+        ArrayList<EmployeeInfo> list =
+            EmployeeService.searchEmployees(firstname, dob, ssn, empid);
 
-                if (row != -1) {
-                    String empId = table.getValueAt(row, 2).toString();
+        for (EmployeeInfo emp : list) {
+            model.addRow(new Object[]{
+                emp.getFname(),
+                emp.getLname(),
+                emp.getEmpID(),
+                emp.getDivision(),
+                emp.getSalary()
+            });
+        }
 
-                    openEditPanel(empId);
+        model.addTableModelListener(e -> {
+            if (e.getType() != TableModelEvent.UPDATE) return;
+
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+
+            if (row < 0 || column < 0) return;
+
+            int empID = Integer.parseInt(model.getValueAt(row, 2).toString());
+            String newValue = model.getValueAt(row, column).toString();
+
+            boolean success = false;
+
+            try {
+                switch (column) {
+                    case 0: // First Name
+                        success = EmployeeUpdateService.updateEmployeeFirstName(empID, newValue);
+                        break;
+
+                    case 1: // Last Name
+                        success = EmployeeUpdateService.updateEmployeeLastName(empID, newValue);
+                        break;
+
+                    case 3: // Division
+                        int divID = getDivisionID(newValue);
+                        success = EmployeeUpdateService.updateEmployeeDivision(empID, divID);
+                        break;
+
+                    case 4: // Salary
+                        double salary = Double.parseDouble(newValue);
+                        success = EmployeeUpdateService.updateEmployeeSalary(empID, salary);
+                        break;
                 }
+
+                if (!success) {
+                    JOptionPane.showMessageDialog(null, "Update failed.");
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Invalid input.");
             }
         });
     }
 
-    void openEditPanel(String empId) {
-    System.out.println("Selected employee: " + empId);
-
-    // Later:
-    // content.removeAll();
-    // content.add(new UpdatePanel(empId));
+    // Helper method for division
+    private int getDivisionID(String divisionName) {
+        switch (divisionName) {
+            case "HR": return 1;
+            case "Engineering": return 2;
+            default: return 0;
+        }
     }
-
 }
+
+    
+
+
+

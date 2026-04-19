@@ -89,14 +89,7 @@ public class EMP_ReportsPanel extends JPanel {
         model.addColumn("Job Title");
         model.addColumn("Total Pay");
 
-        // TEMP data (replace with DB later)
-        if (jobTitle.isEmpty() || jobTitle.equalsIgnoreCase("Manager")) {
-            model.addRow(new Object[]{"Manager", 250000});
-        }
-        if (jobTitle.isEmpty() || jobTitle.equalsIgnoreCase("Developer")) {
-            model.addRow(new Object[]{"Developer", 400000});
-        }
-
+       
         JTable table = new JTable(model);
         table.setRowHeight(25);
 

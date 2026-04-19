@@ -10,7 +10,23 @@ public class EmployeeService {
 ) {
     ArrayList<EmployeeInfo> list = new ArrayList<>();
 
-    String query = "SELECT * FROM employees WHERE 1=1";
+    String query = """
+        SELECT 
+            e.empID,
+            e.Fname,
+            e.Lname,
+            e.email,
+            e.Salary,
+            e.HireDate,
+            d.Name AS division,
+            jt.job_title AS jobTitle
+        FROM employees e
+        LEFT JOIN employee_division ed ON e.empid = ed.empid
+        LEFT JOIN division d ON ed.div_ID = d.ID
+        LEFT JOIN employee_job_titles ejt ON e.empid = ejt.empid
+        LEFT JOIN job_titles jt ON ejt.job_title_id = jt.job_title_id
+        WHERE 1=1
+    """;
 
     if (!fname.isEmpty()) query += " AND Fname = ?";
     if (!dob.isEmpty()) query += " AND DOB = ?";
@@ -37,8 +53,11 @@ public class EmployeeService {
                 rs.getString("Lname"),
                 rs.getString("email"),
                 rs.getDouble("Salary"),
-                rs.getString("HireDate")
+                rs.getString("HireDate"),
+                rs.getString("division"),
+                rs.getString("jobTitle")
             );
+
             list.add(e);
         }
 
@@ -90,12 +109,14 @@ public class EmployeeService {
         while (rs.next()) {
             EmployeeInfo e = new EmployeeInfo();
             e.addEmployee(
-                rs.getInt("empID"),
+                 rs.getInt("empID"),
                 rs.getString("Fname"),
                 rs.getString("Lname"),
-                "",
+                "",                         
                 rs.getDouble("Salary"),
-                ""
+                "",                         
+                "N/A",                      
+                "N/A" 
             );
             list.add(e);
         }

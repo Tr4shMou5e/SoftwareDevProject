@@ -169,14 +169,17 @@ public class HR_ReportsPanel extends JPanel {
         model.addColumn("Empid");
         model.addColumn("Date employed");
 
-        // TEMP data (replace with DB later)
-    //     if (start.isEmpty() && end.isEmpty()) {
-    // model.addRow(new Object[]{"John", "Smith", 101, "2025-01-10"});
-    // }
+      ArrayList<EmployeeInfo> list =
+        EmployeeHireDate.getEmployeesByHireDateRange(start, end);
 
-    // if (start.equals("2025-01-01") && end.equals("2025-03-01")) {
-    //     model.addRow(new Object[]{"Anna", "Lee", 102, "2025-02-03"});
-    // }
+        for (EmployeeInfo emp : list) {
+            model.addRow(new Object[]{
+                emp.getFname(),
+                emp.getLname(),
+                emp.getEmpID(),
+                emp.getHireDate()
+            });
+        }
 
         JTable table = new JTable(model);
         table.setRowHeight(25);
