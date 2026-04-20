@@ -55,18 +55,19 @@ public class HR_SearchPanel extends JPanel {
             }
         };
 
-        model.addColumn("First Name");
-        model.addColumn("Last Name");
+        model.addColumn("FirstName");
+        model.addColumn("LastName");
         model.addColumn("EmpID");
         model.addColumn("Division");
+        model.addColumn("JobTitle");
         model.addColumn("Salary");
 
         JTable table = new JTable(model);
         table.setRowHeight(25);
 
         // hard coded drop down for now until all divsions are shown
-        JComboBox<String> divisionBox = new JComboBox<>(new String[]{"HR", "Engineering"});
-        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(divisionBox));
+        JComboBox<String> jobBox = new JComboBox<>(new String[]{"Manager", "Developer"});
+        table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(jobBox));
 
         tablePanel.removeAll();
         tablePanel.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -82,6 +83,7 @@ public class HR_SearchPanel extends JPanel {
                 emp.getLname(),
                 emp.getEmpID(),
                 emp.getDivision(),
+                emp.getJobTitle(),
                 emp.getSalary()
             });
         }
@@ -113,10 +115,18 @@ public class HR_SearchPanel extends JPanel {
                         int divID = getDivisionID(newValue);
                         success = EmployeeUpdateService.updateEmployeeDivision(empID, divID);
                         break;
-
-                    case 4: // Salary
-                        double salary = Double.parseDouble(newValue);
-                        success = EmployeeUpdateService.updateEmployeeSalary(empID, salary);
+                    case 4: // Job Title
+                        int jobID = getJobTitleID(newValue);
+                        success = EmployeeUpdateService.updateEmployeeJobTitle(empID, jobID);
+                        break;
+                    case 5: // Salary
+                        try {
+                            double salary = Double.parseDouble(newValue);
+                            success = EmployeeUpdateService.updateEmployeeSalary(empID, salary);
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Invalid salary.");
+                            return;
+                        }
                         break;
                 }
 
@@ -138,6 +148,14 @@ public class HR_SearchPanel extends JPanel {
             default: return 0;
         }
     }
+
+    private int getJobTitleID(String jobTitle) {
+    switch (jobTitle) {
+        case "Manager": return 1;
+        case "Developer": return 2;
+        default: return 0;
+    }
+}
 }
 
     

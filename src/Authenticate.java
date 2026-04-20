@@ -18,33 +18,69 @@ public class Authenticate extends JFrame implements ActionListener {
     private UserPass dao;
 
     public Authenticate() {
-        dao = new UserPass();
 
-        setTitle("Employee Authentication System");
-        setSize(400, 220);
+        try {
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setTitle("Login");
+        setSize(400, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        setLayout(new GridLayout(3, 2, 10, 10));
+        JPanel p1 = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        empIdLabel = new JLabel("Employee ID:");
-        passwordLabel = new JLabel("Password:");
+        JLabel title = new JLabel("Login");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 20));
 
-        empIdField = new JTextField();
-        passwordField = new JPasswordField();
+        empIdField = new JTextField(12);
+        passwordField = new JPasswordField(12);
 
-        createUserButton = new JButton("Create User");
         loginButton = new JButton("Login");
+        createUserButton = new JButton("Create User");
 
-        createUserButton.addActionListener(this);
+        gbc.insets = new Insets(15, 10, 15, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Title
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        p1.add(title, gbc);
+
+        // Username
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        p1.add(new JLabel("Employee ID:"), gbc);
+
+        gbc.gridx = 1;
+        p1.add(empIdField, gbc);
+
+        // Password
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        p1.add(new JLabel("Password:"), gbc);
+
+        gbc.gridx = 1;
+        p1.add(passwordField, gbc);
+
+        // Buttons
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        p1.add(loginButton, gbc);
+
+        gbc.gridy = 4;
+        p1.add(createUserButton, gbc);
+
+        // Add panel
+        add(p1);
+
+        // listeners
         loginButton.addActionListener(this);
-
-        add(empIdLabel);
-        add(empIdField);
-        add(passwordLabel);
-        add(passwordField);
-        add(createUserButton);
-        add(loginButton);
+        createUserButton.addActionListener(this);
 
         setVisible(true);
     }
@@ -79,17 +115,22 @@ public class Authenticate extends JFrame implements ActionListener {
             } else {
                 boolean valid = PasswordUtil.verifyPassword(password, storedHash);
 
-                if (valid) {
+               if (valid) {
+                    this.dispose();
+
                     if (PasswordUtil.isHRPassword(password)) {
-                        JOptionPane.showMessageDialog(this, "Login successful. Access granted: HR Admin");
-                    } else if (PasswordUtil.isGeneralEmployeePassword(password)) {
-                        JOptionPane.showMessageDialog(this, "Login successful. Access granted: General Employee");
-                    } else {
+                        new HRAdminMainFrame();
+                    } 
+                    else if (PasswordUtil.isGeneralEmployeePassword(password)) {
+                        new GenEmployeeMainFrame();
+                    } 
+                    else {
                         JOptionPane.showMessageDialog(this, "Password format invalid.");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid login credentials.");
                 }
+                else {
+                JOptionPane.showMessageDialog(this, "Invalid login credentials.");
+                 }
             }
         }
     }

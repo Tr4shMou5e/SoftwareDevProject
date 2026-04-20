@@ -18,16 +18,6 @@ public class HRAdminMainFrame extends JFrame {
         content.repaint();
     }
 
-    void showUpdemp() {
-        content.removeAll();
-
-
-        content.add(new JLabel("Update Employees", SwingConstants.CENTER));
-
-
-        content.revalidate();
-        content.repaint();
-    }
 
     void showSalary() {
         content.removeAll();
@@ -64,13 +54,11 @@ public class HRAdminMainFrame extends JFrame {
         sidebar.setBackground(new Color(30, 30, 30));
         sidebar.setLayout(new GridLayout(6, 1, 0, 10));
 
-        JButton searchEmpBtn = new JButton("Search Employee");
-        JButton updEmployeesBtn = new JButton("Update Employees");
+        JButton searchEmpBtn = new JButton("Search & Update Employee");
         JButton salaryBtn = new JButton("Salary Adjustment");
         JButton reportsBtn = new JButton("Reports");
 
         sidebar.add(searchEmpBtn);
-        sidebar.add(updEmployeesBtn);
         sidebar.add(salaryBtn);
         sidebar.add(reportsBtn);
 
@@ -87,7 +75,6 @@ public class HRAdminMainFrame extends JFrame {
 
         
         searchEmpBtn.setActionCommand("SEARCHEMP");
-        updEmployeesBtn.setActionCommand("UPDEMP");
         salaryBtn.setActionCommand("SALARY");
         reportsBtn.setActionCommand("REPORTS");
 
@@ -97,9 +84,6 @@ public class HRAdminMainFrame extends JFrame {
             switch (e.getActionCommand()) {
                 case "SEARCHEMP":
                     showSearchemp();
-                    break;
-                case "UPDEMP":
-                    showUpdemp();
                     break;
                 case "SALARY":
                     showSalary();
@@ -111,7 +95,6 @@ public class HRAdminMainFrame extends JFrame {
         };
 
         searchEmpBtn.addActionListener(menuHandler);
-        updEmployeesBtn.addActionListener(menuHandler);
         salaryBtn.addActionListener(menuHandler);
         reportsBtn.addActionListener(menuHandler);
         
