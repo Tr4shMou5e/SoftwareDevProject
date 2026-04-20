@@ -39,7 +39,7 @@ public class Authenticate extends JFrame implements ActionListener {
         passwordField = new JPasswordField(12);
 
         loginButton = new JButton("Login");
-        createUserButton = new JButton("Create User");
+        // createUserButton = new JButton("Create User");
 
         gbc.insets = new Insets(15, 10, 15, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -72,15 +72,15 @@ public class Authenticate extends JFrame implements ActionListener {
         gbc.gridwidth = 2;
         p1.add(loginButton, gbc);
 
-        gbc.gridy = 4;
-        p1.add(createUserButton, gbc);
+        // gbc.gridy = 4;
+        // p1.add(createUserButton, gbc);
 
         // Add panel
         add(p1);
 
         // listeners
         loginButton.addActionListener(this);
-        createUserButton.addActionListener(this);
+        // createUserButton.addActionListener(this);
 
         setVisible(true);
     }
@@ -103,11 +103,11 @@ public class Authenticate extends JFrame implements ActionListener {
             return;
         }
 
-        if (e.getSource() == createUserButton) {
-            dao.createUser(empId, password);
-            JOptionPane.showMessageDialog(this, "Create User button clicked.");
+        // if (e.getSource() == createUserButton) {
+        //     dao.createUser(empId, password);
+        //     JOptionPane.showMessageDialog(this, "Create User button clicked.");
 
-        } else if (e.getSource() == loginButton) {
+        if (e.getSource() == loginButton) {
             String storedHash = dao.getHashedPasswordByEmpId(empId);
 
             if (storedHash == null) {

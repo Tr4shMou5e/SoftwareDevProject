@@ -6,32 +6,28 @@ import javax.swing.JOptionPane;
 
 public class UserPass {
 
+    
     public void createUser(int empId, String password) {
-        if (getHashedPasswordByEmpId(empId) != null) {
-            JOptionPane.showMessageDialog(null, "User already exists.");
-            return;
-}
-        if (!PasswordUtil.isValidPasswordFormat(password)) {
-            JOptionPane.showMessageDialog(null, "Invalid password format.");
-            return;
-        }
 
-        String sql = "INSERT INTO users (emp_id, password_hash) VALUES (?, ?)";
-        String hashedPassword = PasswordUtil.hashPassword(password);
+    System.out.println("Creating user with empID: " + empId);
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    String sql = "INSERT INTO users (emp_id, password_hash) VALUES (?, ?)";
+    String hashedPassword = PasswordUtil.hashPassword(password);
 
-            stmt.setInt(1, empId);
-            stmt.setString(2, hashedPassword);
-            stmt.executeUpdate();
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            System.out.println("User created successfully.");
+        stmt.setInt(1, empId);
+        stmt.setString(2, hashedPassword);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        stmt.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "User created successfully!");
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 
     public String getHashedPasswordByEmpId(int empId) {
         String sql = "SELECT password_hash FROM users WHERE emp_id = ?";

@@ -7,34 +7,27 @@ public class EMP_ReportsPanel extends JPanel {
 
     JButton viewPayBtn = new JButton("View Pay History");
 
-    JTextField empIdField = new JTextField(10);
+    int empID;
 
     JPanel tablePanel = new JPanel(new BorderLayout());
 
-    public EMP_ReportsPanel() {
+    public EMP_ReportsPanel(int empID) {
+        this.empID = empID;
+
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel();
-
-        topPanel.add(new JLabel("Employee ID:"));
-        topPanel.add(empIdField);
         topPanel.add(viewPayBtn);
 
         add(topPanel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
 
+        viewPayBtn.addActionListener(e -> loadPayHistory(empID));
+
         
-        viewPayBtn.addActionListener(e -> {
-            try {
-                int empID = Integer.parseInt(empIdField.getText());
-                loadPayHistory(empID);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Enter a valid Employee ID");
-            }
-        });
+        
     }
 
-    
     void loadPayHistory(int empID) {
 
         DefaultTableModel model = new DefaultTableModel() {
@@ -67,4 +60,5 @@ public class EMP_ReportsPanel extends JPanel {
         tablePanel.revalidate();
         tablePanel.repaint();
     }
+
 }

@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -62,12 +65,19 @@ public class HR_SearchPanel extends JPanel {
         model.addColumn("JobTitle");
         model.addColumn("Salary");
 
-        JTable table = new JTable(model);
+       JTable table = new JTable(model);
         table.setRowHeight(25);
 
-        // hard coded drop down for now until all divsions are shown
-        JComboBox<String> jobBox = new JComboBox<>(new String[]{"Manager", "Developer"});
+
+        ArrayList<String> jobs = EmployeeService.getAllJobTitles();
+        ArrayList<String> divisions = EmployeeService.getAllDivisions();
+
+        JComboBox<String> jobBox = new JComboBox<>(jobs.toArray(new String[0]));
+        JComboBox<String> divisionBox = new JComboBox<>(divisions.toArray(new String[0]));
+
+        // Set dropdown editors
         table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(jobBox));
+        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(divisionBox));
 
         tablePanel.removeAll();
         tablePanel.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -141,20 +151,44 @@ public class HR_SearchPanel extends JPanel {
     }
 
     // Helper method for division
-    private int getDivisionID(String divisionName) {
-        switch (divisionName) {
-            case "HR": return 1;
-            case "Engineering": return 2;
-            default: return 0;
+   private int getDivisionID(String name) {
+    String sql = "SELECT ID FROM division WHERE Name = ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, name);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("ID");
         }
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
 
-    private int getJobTitleID(String jobTitle) {
-    switch (jobTitle) {
-        case "Manager": return 1;
-        case "Developer": return 2;
-        default: return 0;
+    return 0;
+}
+
+   private int getJobTitleID(String title) {
+    String sql = "SELECT job_title_id FROM job_titles WHERE job_title = ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, title);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("job_title_id");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return 0;
 }
 }
 

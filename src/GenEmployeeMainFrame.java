@@ -23,7 +23,7 @@ public class GenEmployeeMainFrame extends JFrame {
         content.removeAll();
 
 
-        content.add(new EMP_ReportsPanel(), BorderLayout.CENTER);
+        content.add(new EMP_ReportsPanel(loggedInEmpID), BorderLayout.CENTER);
 
 
         content.revalidate();
@@ -64,6 +64,7 @@ public class GenEmployeeMainFrame extends JFrame {
         
         searchEmpBtn.setActionCommand("SEARCHEMP");
         reportsBtn.setActionCommand("REPORTS");
+        
 
 
         

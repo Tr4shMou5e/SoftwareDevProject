@@ -127,4 +127,42 @@ public class EmployeeService {
 
     return list;
 }
+
+public static ArrayList<String> getAllJobTitles() {
+    ArrayList<String> list = new ArrayList<>();
+    String sql = "SELECT job_title FROM job_titles";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            list.add(rs.getString("job_title"));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+
+public static ArrayList<String> getAllDivisions() {
+    ArrayList<String> list = new ArrayList<>();
+    String sql = "SELECT Name FROM division";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            list.add(rs.getString("Name"));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
 }

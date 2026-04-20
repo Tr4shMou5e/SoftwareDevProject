@@ -7,6 +7,15 @@ import javax.swing.*;
 public class HRAdminMainFrame extends JFrame {
     JPanel content = new JPanel();
     // methods for each component HR Admin needs for CRUD functionality
+
+    void showCreateEmployee() {
+        content.removeAll();
+
+        content.add(new HR_CreateEmployeePanel(), BorderLayout.CENTER);
+
+        content.revalidate();
+        content.repaint();
+    }
     void showSearchemp() {
         content.removeAll();
 
@@ -54,10 +63,12 @@ public class HRAdminMainFrame extends JFrame {
         sidebar.setBackground(new Color(30, 30, 30));
         sidebar.setLayout(new GridLayout(6, 1, 0, 10));
 
+        JButton createEmpBtn = new JButton("Create Employee");
         JButton searchEmpBtn = new JButton("Search & Update Employee");
         JButton salaryBtn = new JButton("Salary Adjustment");
         JButton reportsBtn = new JButton("Reports");
 
+        sidebar.add(createEmpBtn); 
         sidebar.add(searchEmpBtn);
         sidebar.add(salaryBtn);
         sidebar.add(reportsBtn);
@@ -73,7 +84,7 @@ public class HRAdminMainFrame extends JFrame {
 
         content.add(label, BorderLayout.CENTER);
 
-        
+        createEmpBtn.setActionCommand("CREATEEMP");
         searchEmpBtn.setActionCommand("SEARCHEMP");
         salaryBtn.setActionCommand("SALARY");
         reportsBtn.setActionCommand("REPORTS");
@@ -91,12 +102,16 @@ public class HRAdminMainFrame extends JFrame {
                 case "REPORTS":
                     showReports();
                     break;
+                case "CREATEEMP":
+                    showCreateEmployee();
+                    break;
             }
         };
 
         searchEmpBtn.addActionListener(menuHandler);
         salaryBtn.addActionListener(menuHandler);
         reportsBtn.addActionListener(menuHandler);
+        createEmpBtn.addActionListener(menuHandler);
         
         add(sidebar, BorderLayout.WEST);
         add(content, BorderLayout.CENTER);
