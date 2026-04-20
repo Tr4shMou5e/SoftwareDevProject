@@ -68,12 +68,18 @@ public class EMP_SearchPanel extends JPanel {
 
     void loadEmployeeData(String firstname, String dob, String ssn, String empid) {
 
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
 
         model.addColumn("First Name");
         model.addColumn("Last Name");
         model.addColumn("EmpID");
         model.addColumn("Division");
+        model.addColumn("JobTitle");
         model.addColumn("Salary");
 
 
@@ -88,6 +94,8 @@ public class EMP_SearchPanel extends JPanel {
                     emp.getFname(),
                     emp.getLname(),
                     emp.getEmpID(),
+                    emp.getDivision(),
+                    emp.getJobTitle(),
                     emp.getSalary()
                 });
             }

@@ -105,7 +105,13 @@ public class HR_ReportsPanel extends JPanel {
     }
 
     void loadJobTitleReport(int month, int year) {
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+        
         model.addColumn("Job Title");
         model.addColumn("Total Pay");
 
@@ -137,7 +143,12 @@ public class HR_ReportsPanel extends JPanel {
     }
 
      void loadDivisionReport(int month, int year) {
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         model.addColumn("Divsion");
         model.addColumn("Total Pay");
 
@@ -163,7 +174,12 @@ public class HR_ReportsPanel extends JPanel {
     }
 
     void loadHiresReport(String start, String end) {
-         DefaultTableModel model = new DefaultTableModel();
+         DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         model.addColumn("FirstName");
         model.addColumn("LastName");
         model.addColumn("Empid");

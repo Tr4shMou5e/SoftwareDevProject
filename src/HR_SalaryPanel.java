@@ -81,13 +81,25 @@ public class HR_SalaryPanel extends JPanel {
         EmployeeService.getEmployeesInRange(start, end);
 
     // setup tables
-    DefaultTableModel modelBefore = new DefaultTableModel();
+    DefaultTableModel modelBefore = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+
     modelBefore.addColumn("First Name");
     modelBefore.addColumn("Last Name");
     modelBefore.addColumn("EmpID");
     modelBefore.addColumn("Salary");
 
-    DefaultTableModel modelAfter = new DefaultTableModel();
+    DefaultTableModel modelAfter = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+
     modelAfter.addColumn("First Name");
     modelAfter.addColumn("Last Name");
     modelAfter.addColumn("EmpID");

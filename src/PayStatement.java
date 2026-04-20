@@ -1,8 +1,11 @@
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class PayStatement {
-    public static void viewPayStatement(int empID) {
+    public static ArrayList<PayRollInfo> getPayStatement(int empID) {
+           ArrayList<PayRollInfo> list = new ArrayList<>();
+
         String query = "SELECT * FROM payroll WHERE empID = ? ORDER BY pay_date DESC";
 
         try (Connection conn = DBConnection.getConnection();
@@ -10,26 +13,24 @@ public class PayStatement {
 
             ps.setInt(1, empID);
             ResultSet rs = ps.executeQuery();
-            
-            boolean found = false;
-            
-            System.out.println("Pay Statement:");
 
             while (rs.next()) {
-                found = true;
                 PayRollInfo p = new PayRollInfo();
-                p.addPayRollInfo(empID, null, rs.getDouble("earnings"), rs.getString("pay_date"));
 
-                System.out.println("Earnings: $" + p.getPay());
-                System.out.println("Pay Date: " + p.getPayDate());
-                System.out.println("------------------------------------------");
-            }
-            if (!found) {
-                System.out.println("No pay statement found.");
+                p.addPayRollInfo(
+                    empID,
+                    "",
+                    rs.getDouble("earnings"),
+                    rs.getString("pay_date")
+                );
+
+                list.add(p);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return list;
     }
 }
