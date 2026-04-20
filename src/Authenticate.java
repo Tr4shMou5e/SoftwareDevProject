@@ -18,7 +18,7 @@ public class Authenticate extends JFrame implements ActionListener {
     private UserPass dao;
 
     public Authenticate() {
-
+        dao = new UserPass();
         try {
             UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
         } catch (Exception e) {
