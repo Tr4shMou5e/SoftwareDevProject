@@ -17,14 +17,13 @@ public class EMP_SearchPanel extends JPanel {
 
     JPanel tablePanel = new JPanel(new BorderLayout());
 
-    // // Ryan's fun helpful thingy
-    // private Object[][] stored_employees = {
-    //     new Object[]{"John", "Smith", 101, "HR", 60000},
-    //     new Object[]{"Anna", "Lee", 102, "Engineering", 75000}
-    // };
+    private int loggedInEmpID;
+    private boolean isEmployee;
 
-    public EMP_SearchPanel() {
+    public EMP_SearchPanel(int empID, boolean isEmployee) {
         setLayout(new BorderLayout());
+        this.loggedInEmpID = empID;
+        this.isEmployee = isEmployee;
 
         JPanel topPanel = new JPanel();
         
@@ -59,7 +58,15 @@ public class EMP_SearchPanel extends JPanel {
             String ssn = ssnField.getText();
             String empid = empidField.getText();
 
-            loadEmployeeData(fname,dob,ssn,empid);
+            // restrict to only personal employee info
+            if (isEmployee) {
+                fname = "";
+                dob = "";
+                ssn = "";
+                empid = String.valueOf(loggedInEmpID);
+            }
+
+            loadEmployeeData(fname, dob, ssn, empid);
         });
         
 
@@ -85,8 +92,13 @@ public class EMP_SearchPanel extends JPanel {
 
         try {
 
-            ArrayList<EmployeeInfo> list = EmployeeService.searchEmployees(
-                firstname, dob, ssn, empid
+            if (isEmployee) {
+                
+                empid = String.valueOf(loggedInEmpID);
+            }
+
+                ArrayList<EmployeeInfo> list = EmployeeService.searchEmployees(
+                    firstname, dob, ssn, empid
             );
 
             for (EmployeeInfo emp : list) {

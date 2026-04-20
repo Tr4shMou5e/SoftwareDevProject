@@ -6,12 +6,13 @@ import javax.swing.*;
 
 public class GenEmployeeMainFrame extends JFrame {
     JPanel content = new JPanel();
+    private  int loggedInEmpID;
     // methods for each component HR Admin needs for CRUD functionality
     void showSearchemp() {
         content.removeAll();
 
-
-        content.add(new EMP_SearchPanel(), BorderLayout.CENTER);
+        // user can only ever search their empid
+        content.add(new EMP_SearchPanel(loggedInEmpID, true), BorderLayout.CENTER);
 
 
         content.revalidate();
@@ -29,7 +30,8 @@ public class GenEmployeeMainFrame extends JFrame {
         content.repaint();
     }
     
-    public GenEmployeeMainFrame() {
+    public GenEmployeeMainFrame(int empID) {
+        this.loggedInEmpID = empID;
         setTitle("Employee Dashboard");
         setSize(1200, 1200);
         setLocationRelativeTo(null);

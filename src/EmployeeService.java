@@ -28,10 +28,10 @@ public class EmployeeService {
         WHERE 1=1
     """;
 
-    if (!fname.isEmpty()) query += " AND Fname = ?";
-    if (!dob.isEmpty()) query += " AND DOB = ?";
-    if (!ssn.isEmpty()) query += " AND SSN = ?";
-    if (!empid.isEmpty()) query += " AND empID = ?";
+    if (!fname.isEmpty()) query += " AND e.Fname = ?";
+    if (!dob.isEmpty()) query += " AND e.DOB = ?";
+    if (!ssn.isEmpty()) query += " AND e.SSN = ?";
+    if (!empid.isEmpty()) query += " AND e.empID = ?";
 
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(query)) {
@@ -127,40 +127,4 @@ public class EmployeeService {
 
     return list;
 }
-    /* # Employee View {original comment}
-       # Rund's comment: while this is good for employee view the final assignment shows both HR and employee should have multi-view not just HR
-
-    public static void ViewInfo(int empID) {
-        String query = "SELECT * FROM employees WHERE empID = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
-            ps.setInt(1, empID);
-            ResultSet rs = ps.executeQuery();
-
-            if (!rs.next()) {
-                System.out.println("Employee not found.");
-            } else {
-                EmployeeInfo e = new EmployeeInfo();
-                e.addEmployee(empID, 
-                rs.getString("Fname"), 
-                rs.getString("Lname"), 
-                rs.getString("email"), 
-                rs.getDouble("Salary"),
-                null
-                );
-
-                System.out.println("Employee Details:");
-                System.out.println("ID: " + e.getEmpID());
-                System.out.println("Name: " + e.getFname() + " " + e.getLname());
-                System.out.println("Email: " + e.getEmail());
-                System.out.println("Salary: " + e.getSalary());
-                System.out.println("------------------------------------------");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    } */
 }

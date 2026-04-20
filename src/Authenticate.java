@@ -122,7 +122,7 @@ public class Authenticate extends JFrame implements ActionListener {
                         new HRAdminMainFrame();
                     } 
                     else if (PasswordUtil.isGeneralEmployeePassword(password)) {
-                        new GenEmployeeMainFrame();
+                        new GenEmployeeMainFrame(empId);
                     } 
                     else {
                         JOptionPane.showMessageDialog(this, "Password format invalid.");

@@ -2,12 +2,17 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 public class UserPass {
 
     public void createUser(int empId, String password) {
+        if (getHashedPasswordByEmpId(empId) != null) {
+            JOptionPane.showMessageDialog(null, "User already exists.");
+            return;
+}
         if (!PasswordUtil.isValidPasswordFormat(password)) {
-            System.out.println("Invalid password format.");
+            JOptionPane.showMessageDialog(null, "Invalid password format.");
             return;
         }
 
