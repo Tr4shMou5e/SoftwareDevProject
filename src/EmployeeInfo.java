@@ -55,5 +55,37 @@ public class EmployeeInfo {
         return jobTitle; 
     }
 
+    public void setEmpID(int empID) {
+        this.empID = empID;
+    }
+
+    public void setFname(String fname) {
+        this.Fname = fname;
+    }
+
+    public void setLname(String lname) {
+        this.Lname = lname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSalary(double salary) {
+        this.Salary = salary;
+    }
+
+    public void setHireDate(String hireDate) {
+        this.HireDate = hireDate;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
 }
 
