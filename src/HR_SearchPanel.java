@@ -61,6 +61,7 @@ public class HR_SearchPanel extends JPanel {
         model.addColumn("FirstName");
         model.addColumn("LastName");
         model.addColumn("EmpID");
+        model.addColumn("AddressID");
         model.addColumn("Division");
         model.addColumn("JobTitle");
         model.addColumn("Salary");
@@ -75,9 +76,20 @@ public class HR_SearchPanel extends JPanel {
         JComboBox<String> jobBox = new JComboBox<>(jobs.toArray(new String[0]));
         JComboBox<String> divisionBox = new JComboBox<>(divisions.toArray(new String[0]));
 
+        ArrayList<String[]> addressData = AddressService.getAllAddresses();
+        ArrayList<String> addresses = new ArrayList<>();
+
+        for (String[] row : addressData) {
+            String display = row[1] + ", " + row[2] + ", " + row[3] + " " + row[4];
+            addresses.add(display);
+        }
+
+JComboBox<String> addressBox = new JComboBox<>(addresses.toArray(new String[0]));
+
         // Set dropdown editors
-        table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(jobBox));
-        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(divisionBox));
+        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(addressBox));
+        table.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(jobBox));
+        table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(divisionBox));
 
         tablePanel.removeAll();
         tablePanel.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -92,6 +104,7 @@ public class HR_SearchPanel extends JPanel {
                 emp.getFname(),
                 emp.getLname(),
                 emp.getEmpID(),
+                emp.getAddressID(),
                 emp.getDivision(),
                 emp.getJobTitle(),
                 emp.getSalary()
@@ -120,16 +133,21 @@ public class HR_SearchPanel extends JPanel {
                     case 1: // Last Name
                         success = EmployeeUpdateService.updateEmployeeLastName(empID, newValue);
                         break;
+                    
+                    case 3: // Address
+                        int addressID = getAddressID(newValue);
+                        success = EmployeeUpdateService.updateEmployeeAddress(empID, addressID);
+                        break;
 
-                    case 3: // Division
+                    case 4: // Division
                         int divID = getDivisionID(newValue);
                         success = EmployeeUpdateService.updateEmployeeDivision(empID, divID);
                         break;
-                    case 4: // Job Title
+                    case 5: // Job Title
                         int jobID = getJobTitleID(newValue);
                         success = EmployeeUpdateService.updateEmployeeJobTitle(empID, jobID);
                         break;
-                    case 5: // Salary
+                    case 6: // Salary
                         try {
                             double salary = Double.parseDouble(newValue);
                             success = EmployeeUpdateService.updateEmployeeSalary(empID, salary);
@@ -190,6 +208,26 @@ public class HR_SearchPanel extends JPanel {
 
     return 0;
 }
+
+    private int getAddressID(String display) {
+    String sql = "SELECT addressID FROM addresses WHERE CONCAT(street, ', ', city, ', ', state, ' ', zip) = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, display);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("addressID");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    return 0;
+    }
 }
 
     

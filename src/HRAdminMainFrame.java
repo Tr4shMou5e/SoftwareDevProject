@@ -25,6 +25,16 @@ public class HRAdminMainFrame extends JFrame {
         content.revalidate();
         content.repaint();
     }
+
+    void showManageAddresses(){
+        content.removeAll();
+
+        content.add(new HR_AddressPanel(), BorderLayout.CENTER);
+
+        content.revalidate();
+        content.repaint();
+    }
+
     void showSearchemp() {
         content.removeAll();
 
@@ -77,12 +87,14 @@ public class HRAdminMainFrame extends JFrame {
         JButton searchEmpBtn = new JButton("Search & Update Employee");
         JButton salaryBtn = new JButton("Salary Adjustment");
         JButton reportsBtn = new JButton("Reports");
+        JButton addressBtn = new JButton("Manage Addresses");
 
         sidebar.add(createEmpBtn); 
         sidebar.add(deleteEmpBtn);
         sidebar.add(searchEmpBtn);
         sidebar.add(salaryBtn);
         sidebar.add(reportsBtn);
+        sidebar.add(addressBtn);
 
         // Main Content Area
         
@@ -100,6 +112,7 @@ public class HRAdminMainFrame extends JFrame {
         searchEmpBtn.setActionCommand("SEARCHEMP");
         salaryBtn.setActionCommand("SALARY");
         reportsBtn.setActionCommand("REPORTS");
+        addressBtn.setActionCommand("ADDRESS");
 
 
         
@@ -120,6 +133,9 @@ public class HRAdminMainFrame extends JFrame {
                 case "CREATEEMP":
                     showCreateEmployee();
                     break;
+                case "ADDRESS":
+                    showManageAddresses();
+                    break;
             }
         };
 
@@ -128,6 +144,7 @@ public class HRAdminMainFrame extends JFrame {
         reportsBtn.addActionListener(menuHandler);
         createEmpBtn.addActionListener(menuHandler);
         deleteEmpBtn.addActionListener(menuHandler);
+        addressBtn.addActionListener(menuHandler);
         
         add(sidebar, BorderLayout.WEST);
         add(content, BorderLayout.CENTER);

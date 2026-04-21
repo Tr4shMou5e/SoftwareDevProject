@@ -59,7 +59,16 @@ public class EMP_SearchPanel extends JPanel {
             String empid = empidField.getText();
 
             // restrict to only personal employee info
+
             if (isEmployee) {
+                if(!empid.equals(String.valueOf(loggedInEmpID))){
+                JOptionPane.showMessageDialog(
+                    this,
+                    "You can only view your personal information.",
+                    "Access Restricted",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            }
                 fname = "";
                 dob = "";
                 ssn = "";
@@ -85,6 +94,7 @@ public class EMP_SearchPanel extends JPanel {
         model.addColumn("First Name");
         model.addColumn("Last Name");
         model.addColumn("EmpID");
+        model.addColumn("AddressID");
         model.addColumn("Division");
         model.addColumn("JobTitle");
         model.addColumn("Salary");
@@ -106,6 +116,7 @@ public class EMP_SearchPanel extends JPanel {
                     emp.getFname(),
                     emp.getLname(),
                     emp.getEmpID(),
+                    emp.getAddressID(),
                     emp.getDivision(),
                     emp.getJobTitle(),
                     emp.getSalary()
@@ -136,25 +147,24 @@ public class EMP_SearchPanel extends JPanel {
         //Depending on how this works with database might have to revise, Check once gotten to this point
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+    if (!isEmployee) {
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int row = table.getSelectedRow();
 
-                if (row != -1) {
-                    String empId = table.getValueAt(row, 2).toString();
-
-                    openEditPanel(empId);
+                    if (row != -1) {
+                        String empId = table.getValueAt(row, 2).toString();
+                        openEditPanel(empId);
+                    }
                 }
-            }
         });
     }
+}
 
     void openEditPanel(String empId) {
     System.out.println("Selected employee: " + empId);
 
-    // Later:
-    // content.removeAll();
-    // content.add(new UpdatePanel(empId));
+    
     }
 
 }

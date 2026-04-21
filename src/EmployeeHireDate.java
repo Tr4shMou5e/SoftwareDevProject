@@ -26,6 +26,7 @@ public class EmployeeHireDate {
                     "",
                     0.0,
                     rs.getString("HireDate"),
+                    0,
                     "N/A",                      
                     "N/A" 
                 );

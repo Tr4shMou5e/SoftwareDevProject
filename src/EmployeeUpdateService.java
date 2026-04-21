@@ -184,4 +184,21 @@ public class EmployeeUpdateService {
             return false;
         }
     }
+
+    public static boolean updateEmployeeAddress(int empID, int addressID) {
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(
+             "UPDATE employees SET addressID = ? WHERE empID = ?")) {
+
+        ps.setInt(1, addressID);
+        ps.setInt(2, empID);
+
+        return ps.executeUpdate() > 0;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+        return false;
+    }
 }

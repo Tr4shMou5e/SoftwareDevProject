@@ -4,6 +4,7 @@ public class EmployeeInfo {
     private String Fname, Lname, email;
     private double Salary;
     private String HireDate;
+    private int addressID;
     private String division;
     private String jobTitle;
 
@@ -11,13 +12,14 @@ public class EmployeeInfo {
 
     }
 
-    public void addEmployee(int empID, String Fname, String Lname, String email, double Salary, String HireDate, String division, String jobTitle) {
+    public void addEmployee(int empID, String Fname, String Lname, String email, double Salary, String HireDate, int addressID, String division, String jobTitle) {
         this.empID = empID;
         this.Fname = Fname;
         this.Lname = Lname;
         this.email = email;
         this.Salary = Salary;
         this.HireDate = HireDate;
+        this.addressID = addressID;
         this.division = division;
         this.jobTitle = jobTitle;
     }
@@ -45,6 +47,10 @@ public class EmployeeInfo {
 
     public String getHireDate() {
         return HireDate;
+    }
+
+    public int getAddressID(){
+        return addressID;
     }
 
     public String getDivision() { 
@@ -77,6 +83,10 @@ public class EmployeeInfo {
 
     public void setHireDate(String hireDate) {
         this.HireDate = hireDate;
+    }
+
+    public void setAddressID(int addressid){
+        this.addressID = addressid;
     }
 
     public void setDivision(String division) {

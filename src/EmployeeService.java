@@ -18,6 +18,7 @@ public class EmployeeService {
             e.email,
             e.Salary,
             e.HireDate,
+            e.addressID,
             d.Name AS division,
             jt.job_title AS jobTitle
         FROM employees e
@@ -54,6 +55,7 @@ public class EmployeeService {
                 rs.getString("email"),
                 rs.getDouble("Salary"),
                 rs.getString("HireDate"),
+                rs.getInt("addressID"),
                 rs.getString("division"),
                 rs.getString("jobTitle")
             );
@@ -112,9 +114,10 @@ public class EmployeeService {
                  rs.getInt("empID"),
                 rs.getString("Fname"),
                 rs.getString("Lname"),
-                "",                         
+                "",                       
                 rs.getDouble("Salary"),
-                "",                         
+                "", 
+                0,                       
                 "N/A",                      
                 "N/A" 
             );
