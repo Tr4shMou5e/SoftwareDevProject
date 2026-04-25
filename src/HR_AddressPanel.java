@@ -38,7 +38,7 @@ public class HR_AddressPanel extends JPanel {
         add(inputPanel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
 
-        // 🔹 Table setup
+        
         model = new DefaultTableModel(
             new String[]{"ID", "Street", "City", "State", "Zip"}, 0
         ) {
@@ -70,7 +70,7 @@ public class HR_AddressPanel extends JPanel {
         }
     }
 
-    // 🔹 Add via service
+    
     private void addAddress() {
         String street = streetField.getText().trim();
         String city = cityField.getText().trim();

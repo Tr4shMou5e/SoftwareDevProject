@@ -23,7 +23,7 @@ public class HR_DeletePanel extends JPanel {
         add(inputPanel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
 
-        // 🔥 Table setup
+        
         model = new DefaultTableModel(
             new String[]{"FirstName", "LastName", "EmpID", "Division", "JobTitle", "Salary"}, 0
         ) {
@@ -38,7 +38,7 @@ public class HR_DeletePanel extends JPanel {
 
         tablePanel.add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // 🔥 Button action
+        
         deleteBtn.addActionListener(e -> {
             deleteEmployee();
         });
