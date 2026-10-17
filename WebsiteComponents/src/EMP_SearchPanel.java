@@ -75,24 +75,11 @@ public class EMP_SearchPanel extends JPanel {
         model.addColumn("Division");
         model.addColumn("Salary");
 
-        // TEMP filtering logic
-
-        // Example very temporty filtering logic 2
+       
         for (Object[] tuple : stored_employees) {
-            // TODO: Apply filitering logic right here
-
-            // Determine if you add this based on that filter.
+           
             model.addRow(tuple);
         }
-
-        // Exapmle VERY temporary filtering logic 1
-        // if (firstname.equalsIgnoreCase("John") || firstname.isEmpty()) {
-        //     model.addRow(new Object[]{"John", "Smith", 101, "HR", 60000});
-        // }
-
-        // if (empid.equals("102") || empid.isEmpty()) {
-        //     model.addRow(new Object[]{"Anna", "Lee", 102, "Engineering", 75000});
-        // }
 
         JTable table = new JTable(model);
         table.setRowHeight(25);
